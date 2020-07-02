@@ -21,6 +21,15 @@
             <version>5.6.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.spotbugs</groupId>-->
+        <!--            <artifactId>spotbugs</artifactId>-->
+        <!--            <version>3.1.12</version>-->
+
+        <!--            <type>pom</type>-->
+        <!--        </dependency>-->
+
     </dependencies>
 
     <build>
@@ -32,28 +41,48 @@
                 <configuration>
                     <failIfNoTests>true</failIfNoTests>
 
-                    <argLine>@{argLine} -Xmx1024m</argLine>
-<!--                    <argLine>jaCoCoArgLine -Xmx1024m </argLine>-->
+                    <!--                    <argLine>@{argLine} -Xmx1024m</argLine>-->
+                    <!--                    <argLine>jaCoCoArgLine -Xmx1024m </argLine>-->
                 </configuration>
             </plugin> <!--  maven-surefire-plugin -->
-
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.12</version>
+                <dependencies>
+                    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+                    <dependency>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs</artifactId>
+                        <version>3.1.12</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.5</version>
                 <executions>
-<!--                    Skipping JaCoCo execution due to missing execution data file:
-                        *****\2.5_ci\target\jacoco.exec-->
+                    <!--                    Skipping JaCoCo execution due to missing execution data file:
+                                            *****\2.5_ci\target\jacoco.exec-->
                     <execution>
                         <id>prepare-agent</id>
                         <phase>initialize</phase>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
-<!--                        <configuration>-->
-<!--                            <propertyName>jaCoCoArgLine</propertyName>-->
-<!--                        </configuration>-->
+                        <!--                        <configuration>-->
+                        <!--                            <propertyName>jaCoCoArgLine</propertyName>-->
+                        <!--                        </configuration>-->
                     </execution>
 
                     <execution>
@@ -87,6 +116,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 </project>
